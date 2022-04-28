@@ -6,6 +6,7 @@ import path from 'path';
 import express from 'express';
 import { Express, Request, Response, NextFunction } from 'express';
 import DB_Connection, { buildQry, QUERY_PROCS } from "./database";
+import { IJob } from './interfaces';
 
 const app: Express = express();
 
@@ -47,6 +48,27 @@ const dbConnection = new DB_Connection();
 //-------------------------------
 app.get("/test", (req, res) => {
     res.send("hello world");
+});
+
+//-------------------------------
+//      GET ALL JOBS     
+//-------------------------------
+app.get("/jobs/all", (req, res) => {
+
+    let jobs: IJob[] = [
+        {
+            VIN: "12345678",
+            Name: "Service",
+            Description: "Service toyota prius"
+        },
+        {
+            VIN: "23456789",
+            Name: "Service",
+            Description: "Service honda accord"
+        }
+    ];
+
+    res.send(jobs);
 });
 
 

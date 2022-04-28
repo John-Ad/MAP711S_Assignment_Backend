@@ -1,10 +1,19 @@
 
-//----------------------------------------------
+//---------------------------
 //      ADD USER
-//----------------------------------------------
+//---------------------------
 
 export interface IAddUser {
     username: string,
-    email: string,
+    role: number,
     password: string
+}
+
+//---------------------------
+//       JOB
+//---------------------------
+export interface IJob {
+    VIN: string,
+    Name: string,
+    Description: string
 }
