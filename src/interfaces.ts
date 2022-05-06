@@ -15,5 +15,7 @@ export interface IAddUser {
 export interface IJob {
     VIN: string,
     Name: string,
-    Description: string
+    Description: string,
+    Completion_Date: string,
+    Date_Added: string
 }

@@ -59,12 +59,16 @@ app.get("/jobs/all", (req, res) => {
         {
             VIN: "12345678",
             Name: "Service",
-            Description: "Service toyota prius"
+            Description: "Service toyota prius",
+            Completion_Date: "2022-12-21",
+            Date_Added: "2022-04-22"
         },
         {
             VIN: "23456789",
             Name: "Service",
-            Description: "Service honda accord"
+            Description: "Service honda accord",
+            Completion_Date: "2022-12-21",
+            Date_Added: "2022-04-22"
         }
     ];
 
