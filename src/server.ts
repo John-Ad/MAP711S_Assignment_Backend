@@ -89,6 +89,28 @@ app.get("/jobs/all", (req, res) => {
     //res.send(jobs);
 });
 
+//-------------------------------
+//      GET TASKS FOR JOB     
+//-------------------------------
+app.get("/job/tasks/:data", (req, res) => {
+
+    let data = JSON.parse(req.params.data)
+
+    dbConnection.query(buildQry(QUERY_PROCS.GET_TASKS_FOR_JOB, data), (err, result) => {
+        if (err) {
+            console.log(err.sqlMessage);
+            res.send(err.sqlMessage);
+        } else {
+            if (result[0].length > 0) {
+                res.send(result[0]);
+            } else {
+                res.send("No records found");
+            }
+        }
+    });
+
+});
+
 
 
 //-------------------------------

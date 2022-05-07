@@ -4,7 +4,7 @@
 
 import dotenv from "dotenv";
 import mysql from "mysql";
-import { IAddUser } from "./interfaces";
+import { IAddUser, IGetTasksForJob } from "./interfaces";
 
 //----------------------------------------------
 //      SETUP DOTENV
@@ -19,7 +19,8 @@ dotenv.config();
 
 export enum QUERY_PROCS {
     ADD_USER = "call sp_addUser",
-    GET_ALL_JOBS = "call sp_getAllJobs"
+    GET_ALL_JOBS = "call sp_getAllJobs",
+    GET_TASKS_FOR_JOB = "call sp_getTasksForJob"
 }
 
 //----------------------------------------------
@@ -37,6 +38,10 @@ export function buildQry(qProc: QUERY_PROCS, data: any): string {
 
         case QUERY_PROCS.GET_ALL_JOBS:
             return `${QUERY_PROCS.GET_ALL_JOBS}();`;
+
+        case QUERY_PROCS.GET_TASKS_FOR_JOB:
+            let getTasksData = (data as IGetTasksForJob);
+            return `${QUERY_PROCS.GET_ALL_JOBS}(${getTasksData.jobID});`;
     }
 }
 

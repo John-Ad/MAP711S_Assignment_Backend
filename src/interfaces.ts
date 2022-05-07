@@ -10,6 +10,13 @@ export interface IAddUser {
 }
 
 //---------------------------
+//      GET TASKS FOR JOB
+//---------------------------
+export interface IGetTasksForJob {
+    jobID: string
+}
+
+//---------------------------
 //       JOB
 //---------------------------
 export interface IJob {
