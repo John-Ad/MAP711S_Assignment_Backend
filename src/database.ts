@@ -34,6 +34,9 @@ export function buildQry(qProc: QUERY_PROCS, data: any): string {
         case QUERY_PROCS.ADD_USER:
             let uAddData = (data as IAddUser);
             return `${QUERY_PROCS.ADD_USER}('${uAddData.username}', '${uAddData.password}');`;
+
+        case QUERY_PROCS.GET_ALL_JOBS:
+            return `${QUERY_PROCS.GET_ALL_JOBS}();`;
     }
 }
 

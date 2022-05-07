@@ -72,7 +72,21 @@ app.get("/jobs/all", (req, res) => {
         }
     ];
 
-    res.send(jobs);
+
+    dbConnection.query(buildQry(QUERY_PROCS.GET_ALL_JOBS, null), (err, result) => {
+        if (err) {
+            console.log(err.sqlMessage);
+            res.send(err.sqlMessage);
+        } else {
+            if (result[0].length > 0) {
+                res.send(result[0]);
+            } else {
+                res.send("No records found");
+            }
+        }
+    });
+
+    //res.send(jobs);
 });
 
 
