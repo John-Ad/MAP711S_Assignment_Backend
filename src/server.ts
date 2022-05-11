@@ -104,7 +104,7 @@ app.get("/job/tasks/:data", (req, res) => {
             if (result[0].length > 0) {
                 res.send(result[0]);
             } else {
-                res.send("No records found");
+                res.send([]);
             }
         }
     });

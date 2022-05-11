@@ -41,7 +41,7 @@ export function buildQry(qProc: QUERY_PROCS, data: any): string {
 
         case QUERY_PROCS.GET_TASKS_FOR_JOB:
             let getTasksData = (data as IGetTasksForJob);
-            return `${QUERY_PROCS.GET_ALL_JOBS}(${getTasksData.jobID});`;
+            return `${QUERY_PROCS.GET_TASKS_FOR_JOB}(${getTasksData.jobID});`;
     }
 }
 
