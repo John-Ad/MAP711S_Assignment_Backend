@@ -4,7 +4,7 @@
 
 import dotenv from "dotenv";
 import mysql from "mysql";
-import { IAddUser, IGetTasksForJob } from "./interfaces";
+import { IAddJob, IAddTask, IAddUser, IGetTasksForJob } from "./interfaces";
 
 //----------------------------------------------
 //      SETUP DOTENV
@@ -20,7 +20,9 @@ dotenv.config();
 export enum QUERY_PROCS {
     ADD_USER = "call sp_addUser",
     GET_ALL_JOBS = "call sp_getAllJobs",
-    GET_TASKS_FOR_JOB = "call sp_getTasksForJob"
+    GET_TASKS_FOR_JOB = "call sp_getTasksForJob",
+    ADD_TASK = "call sp_addTask",
+    ADD_JOB = "call sp_addJob"
 }
 
 //----------------------------------------------
@@ -29,19 +31,29 @@ export enum QUERY_PROCS {
 export function buildQry(qProc: QUERY_PROCS, data: any): string {
     switch (qProc) {
 
-        //---------------------
-        //      ADD USER
-        //---------------------
+        //---- ADD USER ----
         case QUERY_PROCS.ADD_USER:
             let uAddData = (data as IAddUser);
             return `${QUERY_PROCS.ADD_USER}('${uAddData.username}', '${uAddData.password}');`;
 
+        //---- GET ALL JOBS ----
         case QUERY_PROCS.GET_ALL_JOBS:
             return `${QUERY_PROCS.GET_ALL_JOBS}();`;
 
+        //---- GET TASKS FOR JOBS ----
         case QUERY_PROCS.GET_TASKS_FOR_JOB:
             let getTasksData = (data as IGetTasksForJob);
             return `${QUERY_PROCS.GET_TASKS_FOR_JOB}(${getTasksData.jobID});`;
+
+        //---- ADD JOB ----
+        case QUERY_PROCS.ADD_JOB:
+            let addJob = (data as IAddJob);
+            return `${QUERY_PROCS.ADD_JOB}('${addJob.VIN}','${addJob.Name}','${addJob.Description}','${addJob.Completion_Date}');`;
+
+        //---- ADD TASK ----
+        case QUERY_PROCS.ADD_TASK:
+            let addTask = (data as IAddTask);
+            return `${QUERY_PROCS.ADD_TASK}(${addTask.Job_ID},'${addTask.Name}','${addTask.Description}','${addTask.Username}');`;
     }
 }
 

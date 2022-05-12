@@ -6,7 +6,7 @@ import path from 'path';
 import express from 'express';
 import { Express, Request, Response, NextFunction } from 'express';
 import DB_Connection, { buildQry, QUERY_PROCS } from "./database";
-import { IJob } from './interfaces';
+import { IAddJob, IJob } from './interfaces';
 
 const app: Express = express();
 
@@ -111,6 +111,50 @@ app.get("/job/tasks/:data", (req, res) => {
 
 });
 
+
+//--------------------------------------------------------------
+//--------------------------------------------------------------
+//
+//          POST ENDPOINTS
+//      
+//--------------------------------------------------------------
+//--------------------------------------------------------------
+
+//-------------------------------
+//      ADD JOB     
+//-------------------------------
+app.post("/jobs/add", (req, res) => {
+
+    let data = req.body;
+
+    dbConnection.query(buildQry(QUERY_PROCS.ADD_JOB, data), (err, result) => {
+        if (err) {
+            console.log(err.sqlMessage);
+            res.send(err.sqlMessage);
+        } else {
+            res.send("success");
+        }
+    });
+
+});
+
+//-------------------------------
+//      ADD TASK     
+//-------------------------------
+app.post("/job/tasks/add", (req, res) => {
+
+    let data = req.body;
+
+    dbConnection.query(buildQry(QUERY_PROCS.ADD_TASK, data), (err, result) => {
+        if (err) {
+            console.log(err.sqlMessage);
+            res.send(err.sqlMessage);
+        } else {
+            res.send("success");
+        }
+    });
+
+});
 
 
 //-------------------------------

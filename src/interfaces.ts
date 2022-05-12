@@ -26,3 +26,25 @@ export interface IJob {
     Completion_Date: string,
     Date_Added: string
 }
+
+//---------------------------
+//      ADD JOB
+//---------------------------
+
+export interface IAddJob {
+    VIN: string,
+    Name: string,
+    Description: string,
+    Completion_Date: string
+}
+
+//---------------------------
+//      ADD TASK
+//---------------------------
+
+export interface IAddTask {
+    Job_ID: string,
+    Name: string,
+    Description: string,
+    Username: string
+}
