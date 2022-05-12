@@ -111,6 +111,48 @@ app.get("/job/tasks/:data", (req, res) => {
 
 });
 
+//-------------------------------
+//      GET ALL CLIENT DETAILS     
+//-------------------------------
+app.get("/clients/details", (req, res) => {
+
+    dbConnection.query(buildQry(QUERY_PROCS.GET_ALL_CLIENT_DETAILS, null), (err, result) => {
+        if (err) {
+            console.log(err.sqlMessage);
+            res.send(err.sqlMessage);
+        } else {
+            if (result[0].length > 0) {
+                res.send(result[0]);
+            } else {
+                res.send([]);
+            }
+        }
+    });
+
+    //res.send(jobs);
+});
+
+//-------------------------------
+//      GET ALL EMPLOYEE NAMES     
+//-------------------------------
+app.get("/employees/names", (req, res) => {
+
+    dbConnection.query(buildQry(QUERY_PROCS.GET_ALL_EMPLOYEE_NAMES, null), (err, result) => {
+        if (err) {
+            console.log(err.sqlMessage);
+            res.send(err.sqlMessage);
+        } else {
+            if (result[0].length > 0) {
+                res.send(result[0]);
+            } else {
+                res.send([]);
+            }
+        }
+    });
+
+    //res.send(jobs);
+});
+
 
 //--------------------------------------------------------------
 //--------------------------------------------------------------

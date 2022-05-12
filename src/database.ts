@@ -19,10 +19,14 @@ dotenv.config();
 
 export enum QUERY_PROCS {
     ADD_USER = "call sp_addUser",
+    ADD_TASK = "call sp_addTask",
+    ADD_JOB = "call sp_addJob",
+
     GET_ALL_JOBS = "call sp_getAllJobs",
     GET_TASKS_FOR_JOB = "call sp_getTasksForJob",
-    ADD_TASK = "call sp_addTask",
-    ADD_JOB = "call sp_addJob"
+
+    GET_ALL_CLIENT_DETAILS = "call sp_getAllClientDetails",
+    GET_ALL_EMPLOYEE_NAMES = "call sp_getAllEmployeeNames",
 }
 
 //----------------------------------------------
@@ -36,15 +40,6 @@ export function buildQry(qProc: QUERY_PROCS, data: any): string {
             let uAddData = (data as IAddUser);
             return `${QUERY_PROCS.ADD_USER}('${uAddData.username}', '${uAddData.password}');`;
 
-        //---- GET ALL JOBS ----
-        case QUERY_PROCS.GET_ALL_JOBS:
-            return `${QUERY_PROCS.GET_ALL_JOBS}();`;
-
-        //---- GET TASKS FOR JOBS ----
-        case QUERY_PROCS.GET_TASKS_FOR_JOB:
-            let getTasksData = (data as IGetTasksForJob);
-            return `${QUERY_PROCS.GET_TASKS_FOR_JOB}(${getTasksData.jobID});`;
-
         //---- ADD JOB ----
         case QUERY_PROCS.ADD_JOB:
             let addJob = (data as IAddJob);
@@ -54,6 +49,24 @@ export function buildQry(qProc: QUERY_PROCS, data: any): string {
         case QUERY_PROCS.ADD_TASK:
             let addTask = (data as IAddTask);
             return `${QUERY_PROCS.ADD_TASK}(${addTask.Job_ID},'${addTask.Name}','${addTask.Description}','${addTask.Username}');`;
+
+        //---- GET ALL JOBS ----
+        case QUERY_PROCS.GET_ALL_JOBS:
+            return `${QUERY_PROCS.GET_ALL_JOBS}();`;
+
+        //---- GET TASKS FOR JOBS ----
+        case QUERY_PROCS.GET_TASKS_FOR_JOB:
+            let getTasksData = (data as IGetTasksForJob);
+            return `${QUERY_PROCS.GET_TASKS_FOR_JOB}(${getTasksData.jobID});`;
+
+        //---- GET ALL CLIENT DETAILS ----
+        case QUERY_PROCS.GET_ALL_CLIENT_DETAILS:
+            return `${QUERY_PROCS.GET_ALL_CLIENT_DETAILS}();`;
+
+        //---- GET ALL EMPLOYEE NAMES ----
+        case QUERY_PROCS.GET_ALL_EMPLOYEE_NAMES:
+            return `${QUERY_PROCS.GET_ALL_EMPLOYEE_NAMES}();`;
+
     }
 }
 
