@@ -175,7 +175,7 @@ app.post("/login", (req, res) => {
             res.send(err.sqlMessage);
         } else {
             let resp: IPostResponse = {
-                status: result[0][0].Role_ID
+                status: `${result[0][0].Role_ID}`
             }
             res.send(resp);
         }
