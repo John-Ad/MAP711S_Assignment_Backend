@@ -172,7 +172,7 @@ app.post("/login", (req, res) => {
     dbConnection.query(buildQry(QUERY_PROCS.LOGIN, data), (err, result) => {
         if (err) {
             console.log(err.sqlMessage);
-            res.send(err.sqlMessage);
+            res.send({ status: err.sqlMessage });
         } else {
             let resp: IPostResponse = {
                 status: `${result[0][0].Role_ID}`
@@ -194,7 +194,7 @@ app.post("/jobs/add", (req, res) => {
     dbConnection.query(buildQry(QUERY_PROCS.ADD_JOB, data), (err, result) => {
         if (err) {
             console.log(err.sqlMessage);
-            res.send(err.sqlMessage);
+            res.send({ status: err.sqlMessage });
         } else {
             let resp: IPostResponse = {
                 status: "success"
@@ -215,7 +215,7 @@ app.post("/job/tasks/add", (req, res) => {
     dbConnection.query(buildQry(QUERY_PROCS.ADD_TASK, data), (err, result) => {
         if (err) {
             console.log(err.sqlMessage);
-            res.send(err.sqlMessage);
+            res.send({ status: err.sqlMessage });
         } else {
             let resp: IPostResponse = {
                 status: "success"
