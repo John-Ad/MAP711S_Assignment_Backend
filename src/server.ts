@@ -6,7 +6,7 @@ import path from 'path';
 import express from 'express';
 import { Express, Request, Response, NextFunction } from 'express';
 import DB_Connection, { buildQry, QUERY_PROCS } from "./database";
-import { IAddJob, IJob } from './interfaces';
+import { IAddJob, IJob, IPostResponse } from './interfaces';
 
 const app: Express = express();
 
@@ -174,7 +174,10 @@ app.post("/jobs/add", (req, res) => {
             console.log(err.sqlMessage);
             res.send(err.sqlMessage);
         } else {
-            res.send("success");
+            let resp: IPostResponse = {
+                status: "success"
+            }
+            res.send(resp);
         }
     });
 
@@ -192,7 +195,10 @@ app.post("/job/tasks/add", (req, res) => {
             console.log(err.sqlMessage);
             res.send(err.sqlMessage);
         } else {
-            res.send("success");
+            let resp: IPostResponse = {
+                status: "success"
+            }
+            res.send(resp);
         }
     });
 

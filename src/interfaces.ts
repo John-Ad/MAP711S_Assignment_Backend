@@ -1,3 +1,6 @@
+export interface IPostResponse {
+    status: string
+}
 
 //---------------------------
 //      ADD USER
