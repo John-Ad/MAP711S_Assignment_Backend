@@ -60,3 +60,13 @@ export interface IAddTask {
     Description: string,
     Username: string
 }
+
+//---------------------------
+//      GET ALL FOR EMPLOYEE
+//---------------------------
+export interface IGetAllForEmployee {
+    username: string
+}
+
+
+

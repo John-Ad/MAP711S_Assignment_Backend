@@ -4,7 +4,7 @@
 
 import dotenv from "dotenv";
 import mysql from "mysql";
-import { IAddJob, IAddTask, IAddUser, IGetTasksForJob, ILogin } from "./interfaces";
+import { IAddJob, IAddTask, IAddUser, IGetAllForEmployee, IGetTasksForJob, ILogin } from "./interfaces";
 
 //----------------------------------------------
 //      SETUP DOTENV
@@ -26,6 +26,7 @@ export enum QUERY_PROCS {
 
     GET_ALL_JOBS = "call sp_getAllJobs",
     GET_TASKS_FOR_JOB = "call sp_getTasksForJob",
+    GET_ALL_JOBS_FOR_EMPLOYEE = "call sp_getAllJobsForEmployee",
 
     GET_ALL_CLIENT_DETAILS = "call sp_getAllClientDetails",
     GET_ALL_EMPLOYEE_NAMES = "call sp_getAllEmployeeNames",
@@ -65,6 +66,11 @@ export function buildQry(qProc: QUERY_PROCS, data: any): string {
         case QUERY_PROCS.GET_TASKS_FOR_JOB:
             let getTasksData = (data as IGetTasksForJob);
             return `${QUERY_PROCS.GET_TASKS_FOR_JOB}(${getTasksData.jobID});`;
+
+        //---- GET ALL JOBS FOR EMPLOYEE ----
+        case QUERY_PROCS.GET_ALL_JOBS_FOR_EMPLOYEE:
+            let allJobsForEmp = (data as IGetAllForEmployee);
+            return `${QUERY_PROCS.GET_ALL_JOBS_FOR_EMPLOYEE}('${allJobsForEmp.username}');`;
 
         //---- GET ALL CLIENT DETAILS ----
         case QUERY_PROCS.GET_ALL_CLIENT_DETAILS:

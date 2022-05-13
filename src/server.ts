@@ -111,6 +111,28 @@ app.get("/job/tasks/:data", (req, res) => {
 
 });
 
+//-----------------------------------
+//      GET ALL JOBS FOR EMPLOYEE     
+//-----------------------------------
+app.get("/jobs/employee/:data", (req, res) => {
+
+    let data = JSON.parse(req.params.data)
+
+    dbConnection.query(buildQry(QUERY_PROCS.GET_ALL_JOBS_FOR_EMPLOYEE, data), (err, result) => {
+        if (err) {
+            console.log(err.sqlMessage);
+            res.send(err.sqlMessage);
+        } else {
+            if (result[0].length > 0) {
+                res.send(result[0]);
+            } else {
+                res.send([]);
+            }
+        }
+    });
+
+});
+
 //-------------------------------
 //      GET ALL CLIENT DETAILS     
 //-------------------------------
