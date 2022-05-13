@@ -68,5 +68,11 @@ export interface IGetAllForEmployee {
     username: string
 }
 
+//---------------------------
+//      MARK TASK
+//---------------------------
+export interface IMarkTask {
+    taskID: number
+}
 
 

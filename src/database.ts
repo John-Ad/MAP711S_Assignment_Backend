@@ -4,7 +4,7 @@
 
 import dotenv from "dotenv";
 import mysql from "mysql";
-import { IAddJob, IAddTask, IAddUser, IGetAllForEmployee, IGetTasksForJob, ILogin } from "./interfaces";
+import { IAddJob, IAddTask, IAddUser, IGetAllForEmployee, IGetTasksForJob, ILogin, IMarkTask } from "./interfaces";
 
 //----------------------------------------------
 //      SETUP DOTENV
@@ -24,8 +24,12 @@ export enum QUERY_PROCS {
     ADD_TASK = "call sp_addTask",
     ADD_JOB = "call sp_addJob",
 
+    MARK_TASK_AS_COMPLETE = "call sp_markTaskAsComplete",
+    MARK_TASK_AS_INCOMPLETE = "call sp_markTaskAsIncomplete",
+
     GET_ALL_JOBS = "call sp_getAllJobs",
-    GET_TASKS_FOR_JOB = "call sp_getTasksForJob",
+    GET_INCOMPLETE_TASKS_FOR_JOB = "call sp_getIncompleteTasksForJob",
+    GET_COMPLETED_TASKS_FOR_JOB = "call sp_getCompleteDTasksForJob",
     GET_ALL_JOBS_FOR_EMPLOYEE = "call sp_getAllJobsForEmployee",
 
     GET_ALL_CLIENT_DETAILS = "call sp_getAllClientDetails",
@@ -33,7 +37,7 @@ export enum QUERY_PROCS {
 }
 
 //----------------------------------------------
-//      QUERY ENUMS
+//      BUILD QUERY FUNCTION
 //----------------------------------------------
 export function buildQry(qProc: QUERY_PROCS, data: any): string {
     switch (qProc) {
@@ -58,14 +62,29 @@ export function buildQry(qProc: QUERY_PROCS, data: any): string {
             let addTask = (data as IAddTask);
             return `${QUERY_PROCS.ADD_TASK}(${addTask.Job_ID},'${addTask.Name}','${addTask.Description}','${addTask.Username}');`;
 
+        //---- MARK TASK AS COMPLETE ----
+        case QUERY_PROCS.MARK_TASK_AS_COMPLETE:
+            let mTaskAsComp = (data as IMarkTask);
+            return `${QUERY_PROCS.MARK_TASK_AS_COMPLETE}(${mTaskAsComp.taskID});`;
+
+        //---- MARK TASK AS INCOMPLETE ----
+        case QUERY_PROCS.MARK_TASK_AS_INCOMPLETE:
+            let mTaskAsIncomp = (data as IMarkTask);
+            return `${QUERY_PROCS.MARK_TASK_AS_INCOMPLETE}(${mTaskAsIncomp.taskID});`;
+
         //---- GET ALL JOBS ----
         case QUERY_PROCS.GET_ALL_JOBS:
             return `${QUERY_PROCS.GET_ALL_JOBS}();`;
 
-        //---- GET TASKS FOR JOBS ----
-        case QUERY_PROCS.GET_TASKS_FOR_JOB:
+        //---- GET INCOMPLETE TASKS FOR JOBS ----
+        case QUERY_PROCS.GET_INCOMPLETE_TASKS_FOR_JOB:
             let getTasksData = (data as IGetTasksForJob);
-            return `${QUERY_PROCS.GET_TASKS_FOR_JOB}(${getTasksData.jobID});`;
+            return `${QUERY_PROCS.GET_INCOMPLETE_TASKS_FOR_JOB}(${getTasksData.jobID});`;
+
+        //---- GET COMPLETED TASKS FOR JOBS ----
+        case QUERY_PROCS.GET_COMPLETED_TASKS_FOR_JOB:
+            let gTasksData = (data as IGetTasksForJob);
+            return `${QUERY_PROCS.GET_COMPLETED_TASKS_FOR_JOB}(${gTasksData.jobID});`;
 
         //---- GET ALL JOBS FOR EMPLOYEE ----
         case QUERY_PROCS.GET_ALL_JOBS_FOR_EMPLOYEE:

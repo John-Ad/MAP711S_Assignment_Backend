@@ -89,14 +89,36 @@ app.get("/jobs/all", (req, res) => {
     //res.send(jobs);
 });
 
-//-------------------------------
-//      GET TASKS FOR JOB     
-//-------------------------------
-app.get("/job/tasks/:data", (req, res) => {
+//--------------------------------------
+//      GET INCOMPLETE TASKS FOR JOB     
+//--------------------------------------
+app.get("/job/tasks/incomplete/:data", (req, res) => {
 
     let data = JSON.parse(req.params.data)
 
-    dbConnection.query(buildQry(QUERY_PROCS.GET_TASKS_FOR_JOB, data), (err, result) => {
+    dbConnection.query(buildQry(QUERY_PROCS.GET_INCOMPLETE_TASKS_FOR_JOB, data), (err, result) => {
+        if (err) {
+            console.log(err.sqlMessage);
+            res.send(err.sqlMessage);
+        } else {
+            if (result[0].length > 0) {
+                res.send(result[0]);
+            } else {
+                res.send([]);
+            }
+        }
+    });
+
+});
+
+//-------------------------------------
+//      GET COMPLETED TASKS FOR JOB     
+//-------------------------------------
+app.get("/job/tasks/completed/:data", (req, res) => {
+
+    let data = JSON.parse(req.params.data)
+
+    dbConnection.query(buildQry(QUERY_PROCS.GET_COMPLETED_TASKS_FOR_JOB, data), (err, result) => {
         if (err) {
             console.log(err.sqlMessage);
             res.send(err.sqlMessage);
@@ -235,6 +257,48 @@ app.post("/job/tasks/add", (req, res) => {
     let data = req.body;
 
     dbConnection.query(buildQry(QUERY_PROCS.ADD_TASK, data), (err, result) => {
+        if (err) {
+            console.log(err.sqlMessage);
+            res.send({ status: err.sqlMessage });
+        } else {
+            let resp: IPostResponse = {
+                status: "success"
+            }
+            res.send(resp);
+        }
+    });
+
+});
+
+//-------------------------------
+//      MARK TASK AS COMPLETE     
+//-------------------------------
+app.post("/job/task/mark-as-complete", (req, res) => {
+
+    let data = req.body;
+
+    dbConnection.query(buildQry(QUERY_PROCS.MARK_TASK_AS_COMPLETE, data), (err, result) => {
+        if (err) {
+            console.log(err.sqlMessage);
+            res.send({ status: err.sqlMessage });
+        } else {
+            let resp: IPostResponse = {
+                status: "success"
+            }
+            res.send(resp);
+        }
+    });
+
+});
+
+//-------------------------------
+//      MARK TASK AS INCOMPLETE     
+//-------------------------------
+app.post("/job/task/mark-as-incomplete", (req, res) => {
+
+    let data = req.body;
+
+    dbConnection.query(buildQry(QUERY_PROCS.MARK_TASK_AS_INCOMPLETE, data), (err, result) => {
         if (err) {
             console.log(err.sqlMessage);
             res.send({ status: err.sqlMessage });
