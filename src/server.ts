@@ -163,6 +163,28 @@ app.get("/employees/names", (req, res) => {
 //--------------------------------------------------------------
 
 //-------------------------------
+//      LOGIN     
+//-------------------------------
+app.post("/login", (req, res) => {
+
+    let data = req.body;
+
+    dbConnection.query(buildQry(QUERY_PROCS.LOGIN, data), (err, result) => {
+        if (err) {
+            console.log(err.sqlMessage);
+            res.send(err.sqlMessage);
+        } else {
+            let resp: IPostResponse = {
+                status: "success"
+            }
+            res.send(resp);
+        }
+    });
+
+});
+
+
+//-------------------------------
 //      ADD JOB     
 //-------------------------------
 app.post("/jobs/add", (req, res) => {
@@ -196,7 +218,7 @@ app.post("/job/tasks/add", (req, res) => {
             res.send(err.sqlMessage);
         } else {
             let resp: IPostResponse = {
-                status: "success"
+                status: result[0][0]
             }
             res.send(resp);
         }

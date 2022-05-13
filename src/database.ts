@@ -4,7 +4,7 @@
 
 import dotenv from "dotenv";
 import mysql from "mysql";
-import { IAddJob, IAddTask, IAddUser, IGetTasksForJob } from "./interfaces";
+import { IAddJob, IAddTask, IAddUser, IGetTasksForJob, ILogin } from "./interfaces";
 
 //----------------------------------------------
 //      SETUP DOTENV
@@ -18,6 +18,8 @@ dotenv.config();
 //----------------------------------------------
 
 export enum QUERY_PROCS {
+    LOGIN = "call sp_login",
+
     ADD_USER = "call sp_addUser",
     ADD_TASK = "call sp_addTask",
     ADD_JOB = "call sp_addJob",
@@ -34,6 +36,11 @@ export enum QUERY_PROCS {
 //----------------------------------------------
 export function buildQry(qProc: QUERY_PROCS, data: any): string {
     switch (qProc) {
+
+        //---- LOGIN ----
+        case QUERY_PROCS.LOGIN:
+            let uLogin = (data as ILogin);
+            return `${QUERY_PROCS.LOGIN}('${uLogin.username}', '${uLogin.password}');`;
 
         //---- ADD USER ----
         case QUERY_PROCS.ADD_USER:

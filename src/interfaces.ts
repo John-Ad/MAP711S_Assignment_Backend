@@ -3,6 +3,15 @@ export interface IPostResponse {
 }
 
 //---------------------------
+//      LOGIN
+//---------------------------
+export interface ILogin {
+    username: string,
+    password: string
+}
+
+
+//---------------------------
 //      ADD USER
 //---------------------------
 
