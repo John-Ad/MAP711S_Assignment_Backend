@@ -175,7 +175,7 @@ app.post("/login", (req, res) => {
             res.send(err.sqlMessage);
         } else {
             let resp: IPostResponse = {
-                status: "success"
+                status: result[0][0]
             }
             res.send(resp);
         }
@@ -218,7 +218,7 @@ app.post("/job/tasks/add", (req, res) => {
             res.send(err.sqlMessage);
         } else {
             let resp: IPostResponse = {
-                status: result[0][0]
+                status: "success"
             }
             res.send(resp);
         }
