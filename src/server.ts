@@ -217,7 +217,7 @@ app.get("/reports/employee/day/:data", (req, res) => {
             res.send(err.sqlMessage);
         } else {
             if (result[0].length > 0) {
-                res.send(result[0]);
+                res.send(result[0][0]);
             } else {
                 res.send([]);
             }
@@ -239,7 +239,7 @@ app.get("/reports/employee/month/:data", (req, res) => {
             res.send(err.sqlMessage);
         } else {
             if (result[0].length > 0) {
-                res.send(result[0]);
+                res.send(result[0][0]);
             } else {
                 res.send([]);
             }
