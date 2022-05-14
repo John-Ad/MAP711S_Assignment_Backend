@@ -32,6 +32,13 @@ export enum QUERY_PROCS {
     GET_COMPLETED_TASKS_FOR_JOB = "call sp_getCompleteDTasksForJob",
     GET_ALL_JOBS_FOR_EMPLOYEE = "call sp_getAllJobsForEmployee",
 
+    GET_INCOMPLETE_TASKS_FOR_EMPLOYEE = "call sp_getAllIncompleteTasksForEmployee",
+    GET_COMPLETED_TASKS_FOR_EMPLOYEE_BY_DAY = "call sp_getAllCompletedTasksForEmployeeByDay",
+    GET_COMPLETED_TASKS_FOR_EMPLOYEE_BY_MONTH = "call sp_getAllCompletedTasksForEmployeeByMonth",
+
+    GET_TASKS_REPORT_FOR_EMPLOYEE_BY_DAY = "call sp_getTasksReportForEmployeeByDay",
+    GET_TASKS_REPORT_FOR_EMPLOYEE_BY_MONTH = "call sp_getTasksReportForEmployeeByMonth",
+
     GET_ALL_CLIENT_DETAILS = "call sp_getAllClientDetails",
     GET_ALL_EMPLOYEE_NAMES = "call sp_getAllEmployeeNames",
 }
@@ -85,6 +92,37 @@ export function buildQry(qProc: QUERY_PROCS, data: any): string {
         case QUERY_PROCS.GET_COMPLETED_TASKS_FOR_JOB:
             let gTasksData = (data as IGetTasksForJob);
             return `${QUERY_PROCS.GET_COMPLETED_TASKS_FOR_JOB}(${gTasksData.jobID});`;
+
+
+
+        //---- GET INCOMPLETED TASKS FOR EMPLOYEE ----
+        case QUERY_PROCS.GET_INCOMPLETE_TASKS_FOR_EMPLOYEE:
+            let ite = (data as IGetAllForEmployee);
+            return `${QUERY_PROCS.GET_INCOMPLETE_TASKS_FOR_EMPLOYEE}('${ite.username}');`;
+
+        //---- GET COMPLETED TASKS FOR EMPLOYEE BY DAY ----
+        case QUERY_PROCS.GET_COMPLETED_TASKS_FOR_EMPLOYEE_BY_DAY:
+            let cted = (data as IGetAllForEmployee);
+            return `${QUERY_PROCS.GET_COMPLETED_TASKS_FOR_EMPLOYEE_BY_DAY}('${cted.username}');`;
+
+        //---- GET COMPLETED TASKS FOR EMPLOYEE BY MONTH ----
+        case QUERY_PROCS.GET_COMPLETED_TASKS_FOR_EMPLOYEE_BY_MONTH:
+            let ctem = (data as IGetAllForEmployee);
+            return `${QUERY_PROCS.GET_COMPLETED_TASKS_FOR_EMPLOYEE_BY_MONTH}('${ctem.username}');`;
+
+
+
+        //---- GET TASKS REPORT FOR EMPLOYEE BY DAY ----
+        case QUERY_PROCS.GET_TASKS_REPORT_FOR_EMPLOYEE_BY_DAY:
+            let treb = (data as IGetAllForEmployee);
+            return `${QUERY_PROCS.GET_TASKS_REPORT_FOR_EMPLOYEE_BY_DAY}('${treb.username}');`;
+
+        //---- GET TASKS REPORT FOR EMPLOYEE BY MONTH ----
+        case QUERY_PROCS.GET_TASKS_REPORT_FOR_EMPLOYEE_BY_MONTH:
+            let trem = (data as IGetAllForEmployee);
+            return `${QUERY_PROCS.GET_TASKS_REPORT_FOR_EMPLOYEE_BY_MONTH}('${trem.username}');`;
+
+
 
         //---- GET ALL JOBS FOR EMPLOYEE ----
         case QUERY_PROCS.GET_ALL_JOBS_FOR_EMPLOYEE:

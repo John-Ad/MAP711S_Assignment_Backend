@@ -133,6 +133,124 @@ app.get("/job/tasks/completed/:data", (req, res) => {
 
 });
 
+
+
+
+//---------------------------------------------
+//      GET INCOMPLETE TASKS FOR EMPLOYEE     
+//---------------------------------------------
+app.get("/employee/tasks/incomplete/:data", (req, res) => {
+
+    let data = JSON.parse(req.params.data)
+
+    dbConnection.query(buildQry(QUERY_PROCS.GET_INCOMPLETE_TASKS_FOR_EMPLOYEE, data), (err, result) => {
+        if (err) {
+            console.log(err.sqlMessage);
+            res.send(err.sqlMessage);
+        } else {
+            if (result[0].length > 0) {
+                res.send(result[0]);
+            } else {
+                res.send([]);
+            }
+        }
+    });
+
+});
+
+//--------------------------------------------------
+//      GET COMPLETED TASKS FOR EMPLOYEE BY DAY     
+//--------------------------------------------------
+app.get("/employee/tasks/complete/day/:data", (req, res) => {
+
+    let data = JSON.parse(req.params.data)
+
+    dbConnection.query(buildQry(QUERY_PROCS.GET_COMPLETED_TASKS_FOR_EMPLOYEE_BY_DAY, data), (err, result) => {
+        if (err) {
+            console.log(err.sqlMessage);
+            res.send(err.sqlMessage);
+        } else {
+            if (result[0].length > 0) {
+                res.send(result[0]);
+            } else {
+                res.send([]);
+            }
+        }
+    });
+
+});
+
+//--------------------------------------------------
+//      GET COMPLETED TASKS FOR EMPLOYEE BY MONTH     
+//--------------------------------------------------
+app.get("/employee/tasks/complete/month/:data", (req, res) => {
+
+    let data = JSON.parse(req.params.data)
+
+    dbConnection.query(buildQry(QUERY_PROCS.GET_COMPLETED_TASKS_FOR_EMPLOYEE_BY_MONTH, data), (err, result) => {
+        if (err) {
+            console.log(err.sqlMessage);
+            res.send(err.sqlMessage);
+        } else {
+            if (result[0].length > 0) {
+                res.send(result[0]);
+            } else {
+                res.send([]);
+            }
+        }
+    });
+
+});
+
+
+
+//--------------------------------------------------
+//      GET TASKS REPORT FOR EMPLOYEE BY DAY     
+//--------------------------------------------------
+app.get("/reports/employee/day/:data", (req, res) => {
+
+    let data = JSON.parse(req.params.data)
+
+    dbConnection.query(buildQry(QUERY_PROCS.GET_TASKS_REPORT_FOR_EMPLOYEE_BY_DAY, data), (err, result) => {
+        if (err) {
+            console.log(err.sqlMessage);
+            res.send(err.sqlMessage);
+        } else {
+            if (result[0].length > 0) {
+                res.send(result[0]);
+            } else {
+                res.send([]);
+            }
+        }
+    });
+
+});
+
+//--------------------------------------------------
+//      GET TASKS REPORT FOR EMPLOYEE BY MONTH     
+//--------------------------------------------------
+app.get("/reports/employee/month/:data", (req, res) => {
+
+    let data = JSON.parse(req.params.data)
+
+    dbConnection.query(buildQry(QUERY_PROCS.GET_TASKS_REPORT_FOR_EMPLOYEE_BY_MONTH, data), (err, result) => {
+        if (err) {
+            console.log(err.sqlMessage);
+            res.send(err.sqlMessage);
+        } else {
+            if (result[0].length > 0) {
+                res.send(result[0]);
+            } else {
+                res.send([]);
+            }
+        }
+    });
+
+});
+
+
+
+
 //-----------------------------------
 //      GET ALL JOBS FOR EMPLOYEE     
 //-----------------------------------
