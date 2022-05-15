@@ -75,4 +75,10 @@ export interface IMarkTask {
     taskID: number
 }
 
+//-------------------------------
+//      MARK TASK AS COMPLETE
+//-------------------------------
+export interface IMarkTaskAsComplete extends IMarkTask {
+    comments: string
+}
 

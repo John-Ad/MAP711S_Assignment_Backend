@@ -4,7 +4,7 @@
 
 import dotenv from "dotenv";
 import mysql from "mysql";
-import { IAddJob, IAddTask, IAddUser, IGetAllForEmployee, IGetTasksForJob, ILogin, IMarkTask } from "./interfaces";
+import { IAddJob, IAddTask, IAddUser, IGetAllForEmployee, IGetTasksForJob, ILogin, IMarkTask, IMarkTaskAsComplete } from "./interfaces";
 
 //----------------------------------------------
 //      SETUP DOTENV
@@ -88,8 +88,8 @@ export function buildQry(qProc: QUERY_PROCS, data: any): string {
 
         //---- MARK TASK AS COMPLETE ----
         case QUERY_PROCS.MARK_TASK_AS_COMPLETE:
-            let mTaskAsComp = (data as IMarkTask);
-            return `${QUERY_PROCS.MARK_TASK_AS_COMPLETE}(${mTaskAsComp.taskID});`;
+            let mTaskAsComp = (data as IMarkTaskAsComplete);
+            return `${QUERY_PROCS.MARK_TASK_AS_COMPLETE}(${mTaskAsComp.taskID}, '${mTaskAsComp.comments}');`;
 
         //---- MARK TASK AS INCOMPLETE ----
         case QUERY_PROCS.MARK_TASK_AS_INCOMPLETE:
