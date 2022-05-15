@@ -24,6 +24,9 @@ export enum QUERY_PROCS {
     ADD_TASK = "call sp_addTask",
     ADD_JOB = "call sp_addJob",
 
+    DELETE_JOB = "call sp_deleteJob",
+    DELETE_TASK = "call sp_deleteTask",
+
     MARK_TASK_AS_COMPLETE = "call sp_markTaskAsComplete",
     MARK_TASK_AS_INCOMPLETE = "call sp_markTaskAsIncomplete",
 
@@ -68,6 +71,20 @@ export function buildQry(qProc: QUERY_PROCS, data: any): string {
         case QUERY_PROCS.ADD_TASK:
             let addTask = (data as IAddTask);
             return `${QUERY_PROCS.ADD_TASK}(${addTask.Job_ID},'${addTask.Name}','${addTask.Description}','${addTask.Username}');`;
+
+
+
+        //---- DELETE JOB ----
+        case QUERY_PROCS.DELETE_JOB:
+            let delJob = (data as IGetTasksForJob);
+            return `${QUERY_PROCS.DELETE_JOB}(${delJob.jobID});`;
+
+        //---- DELETE TASK ----
+        case QUERY_PROCS.DELETE_TASK:
+            let delTask = (data as IMarkTask);
+            return `${QUERY_PROCS.DELETE_TASK}(${delTask.taskID});`;
+
+
 
         //---- MARK TASK AS COMPLETE ----
         case QUERY_PROCS.MARK_TASK_AS_COMPLETE:

@@ -389,6 +389,49 @@ app.post("/job/tasks/add", (req, res) => {
 });
 
 //-------------------------------
+//      DELETE JOB     
+//-------------------------------
+app.post("/jobs/delete", (req, res) => {
+
+    let data = req.body;
+
+    dbConnection.query(buildQry(QUERY_PROCS.DELETE_JOB, data), (err, result) => {
+        if (err) {
+            console.log(err.sqlMessage);
+            res.send({ status: err.sqlMessage });
+        } else {
+            let resp: IPostResponse = {
+                status: "success"
+            }
+            res.send(resp);
+        }
+    });
+
+});
+
+//-------------------------------
+//      DELETE TASK     
+//-------------------------------
+app.post("/job/tasks/delete", (req, res) => {
+
+    let data = req.body;
+
+    dbConnection.query(buildQry(QUERY_PROCS.DELETE_TASK, data), (err, result) => {
+        if (err) {
+            console.log(err.sqlMessage);
+            res.send({ status: err.sqlMessage });
+        } else {
+            let resp: IPostResponse = {
+                status: "success"
+            }
+            res.send(resp);
+        }
+    });
+
+});
+
+
+//-------------------------------
 //      MARK TASK AS COMPLETE     
 //-------------------------------
 app.post("/job/task/mark-as-complete", (req, res) => {
