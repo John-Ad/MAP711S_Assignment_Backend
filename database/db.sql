@@ -469,7 +469,73 @@ begin
             from Task
             where Username=username
             AND Completed=0
-        ) as Incomplete_Tasks;
+        ) as Incomplete_Tasks,
+
+        /*jobs completed*/
+        (
+            select ifnull(
+            (select count(*)
+            from Job
+            where ifnull((select count(*) from Task where Task.Job_ID=Job.Job_ID AND Task.Completed=0), 0) = 0
+            )
+            ,
+
+            0
+            )
+        ) as Jobs_Complete,
+
+        /*job with most completed tasks*/
+        (
+            select ifnull(
+            (select Job.Name
+            from Job
+            inner join Task
+            on Job.Job_ID=Task.Job_ID
+            where Task.Completed=1 AND Task.Username='Francis'
+            group by Job.Name
+            order by count(Task.Task_ID) desc
+            limit 1)
+            ,
+
+            'none'
+            ) 
+        ) as Job_Most_Completed,
+
+        /*job with most incomplete tasks*/
+        (
+            select ifnull(
+            (select Job.Name
+            from Job
+            inner join Task
+            on Job.Job_ID=Task.Job_ID
+            where Task.Completed=0 AND Task.Username='Francis'
+            group by Job.Name
+            order by count(Task.Task_ID) desc
+            limit 1)
+            ,
+
+            'none'
+            )
+        ) as Job_Most_Incomplete,
+
+        /*client with most complete tasks*/
+        (
+            select ifnull(
+
+            (select Client.Name
+            from ((Client
+            inner join CarDetails on CarDetails.Client_ID=Client.Client_ID) 
+            inner join Job on Job.VIN=CarDetails.VIN)
+            inner join Task on Task.Job_ID=Job.Job_ID 
+            where Task.Completed=1 AND Task.Username='Francis'
+            group by Client.Name
+            order by count(Task.Task_ID) desc
+            limit 1)
+            ,
+
+            'none'
+            ) 
+        ) as Client_Most_Complete;
 end //
 delimiter ;
 
@@ -492,7 +558,73 @@ begin
             from Task
             where Username=uname
             AND Completed=0
-        ) as Incomplete_Tasks;
+        ) as Incomplete_Tasks,
+
+        /*jobs completed*/
+        (
+            select ifnull(
+            (select count(*)
+            from Job
+            where ifnull((select count(*) from Task where Task.Job_ID=Job.Job_ID AND Task.Completed=0), 0) = 0
+            )
+            ,
+
+            0
+            )
+        ) as Jobs_Complete,
+
+        /*job with most completed tasks*/
+        (
+            select ifnull(
+            (select Job.Name
+            from Job
+            inner join Task
+            on Job.Job_ID=Task.Job_ID
+            where Task.Completed=1 AND Task.Username='Francis'
+            group by Job.Name
+            order by count(Task.Task_ID) desc
+            limit 1)
+            ,
+
+            'none'
+            ) 
+        ) as Job_Most_Completed,
+
+        /*job with most incomplete tasks*/
+        (
+            select ifnull(
+            (select Job.Name
+            from Job
+            inner join Task
+            on Job.Job_ID=Task.Job_ID
+            where Task.Completed=0 AND Task.Username='Francis'
+            group by Job.Name
+            order by count(Task.Task_ID) desc
+            limit 1)
+            ,
+
+            'none'
+            )
+        ) as Job_Most_Incomplete,
+
+        /*client with most complete tasks*/
+        (
+            select ifnull(
+
+            (select Client.Name
+            from ((Client
+            inner join CarDetails on CarDetails.Client_ID=Client.Client_ID) 
+            inner join Job on Job.VIN=CarDetails.VIN)
+            inner join Task on Task.Job_ID=Job.Job_ID 
+            where Task.Completed=1 AND Task.Username='Francis'
+            group by Client.Name
+            order by count(Task.Task_ID) desc
+            limit 1)
+            ,
+
+            'none'
+            ) 
+        ) as Client_Most_Complete;
 end //
 delimiter ;
 
