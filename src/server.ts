@@ -5,7 +5,7 @@
 import path from 'path';
 import express from 'express';
 import { Express, Request, Response, NextFunction } from 'express';
-import DB_Connection, { buildQry, QUERY_PROCS } from "./database";
+import DB_Connection, { newBuildQry, newBuildQry, QUERY_PROCS } from "./database";
 import { IAddJob, IJob, IPostResponse } from './interfaces';
 
 const app: Express = express();
@@ -73,7 +73,7 @@ app.get("/jobs/all", (req, res) => {
     ];
 
 
-    dbConnection.query(buildQry(QUERY_PROCS.GET_ALL_JOBS, null), (err, result) => {
+    dbConnection.query(newBuildQry(QUERY_PROCS.GET_ALL_JOBS, null), (err, result) => {
         if (err) {
             console.log(err.sqlMessage);
             res.send(err.sqlMessage);
@@ -96,7 +96,7 @@ app.get("/job/tasks/incomplete/:data", (req, res) => {
 
     let data = JSON.parse(req.params.data)
 
-    dbConnection.query(buildQry(QUERY_PROCS.GET_INCOMPLETE_TASKS_FOR_JOB, data), (err, result) => {
+    dbConnection.query(newBuildQry(QUERY_PROCS.GET_INCOMPLETE_TASKS_FOR_JOB, data), (err, result) => {
         if (err) {
             console.log(err.sqlMessage);
             res.send(err.sqlMessage);
@@ -118,7 +118,7 @@ app.get("/job/tasks/completed/:data", (req, res) => {
 
     let data = JSON.parse(req.params.data)
 
-    dbConnection.query(buildQry(QUERY_PROCS.GET_COMPLETED_TASKS_FOR_JOB, data), (err, result) => {
+    dbConnection.query(newBuildQry(QUERY_PROCS.GET_COMPLETED_TASKS_FOR_JOB, data), (err, result) => {
         if (err) {
             console.log(err.sqlMessage);
             res.send(err.sqlMessage);
@@ -143,7 +143,7 @@ app.get("/employee/tasks/incomplete/:data", (req, res) => {
 
     let data = JSON.parse(req.params.data)
 
-    dbConnection.query(buildQry(QUERY_PROCS.GET_INCOMPLETE_TASKS_FOR_EMPLOYEE, data), (err, result) => {
+    dbConnection.query(newBuildQry(QUERY_PROCS.GET_INCOMPLETE_TASKS_FOR_EMPLOYEE, data), (err, result) => {
         if (err) {
             console.log(err.sqlMessage);
             res.send(err.sqlMessage);
@@ -165,7 +165,7 @@ app.get("/employee/tasks/complete/day/:data", (req, res) => {
 
     let data = JSON.parse(req.params.data)
 
-    dbConnection.query(buildQry(QUERY_PROCS.GET_COMPLETED_TASKS_FOR_EMPLOYEE_BY_DAY, data), (err, result) => {
+    dbConnection.query(newBuildQry(QUERY_PROCS.GET_COMPLETED_TASKS_FOR_EMPLOYEE_BY_DAY, data), (err, result) => {
         if (err) {
             console.log(err.sqlMessage);
             res.send(err.sqlMessage);
@@ -187,7 +187,7 @@ app.get("/employee/tasks/complete/month/:data", (req, res) => {
 
     let data = JSON.parse(req.params.data)
 
-    dbConnection.query(buildQry(QUERY_PROCS.GET_COMPLETED_TASKS_FOR_EMPLOYEE_BY_MONTH, data), (err, result) => {
+    dbConnection.query(newBuildQry(QUERY_PROCS.GET_COMPLETED_TASKS_FOR_EMPLOYEE_BY_MONTH, data), (err, result) => {
         if (err) {
             console.log(err.sqlMessage);
             res.send(err.sqlMessage);
@@ -211,7 +211,7 @@ app.get("/reports/employee/day/:data", (req, res) => {
 
     let data = JSON.parse(req.params.data)
 
-    dbConnection.query(buildQry(QUERY_PROCS.GET_TASKS_REPORT_FOR_EMPLOYEE_BY_DAY, data), (err, result) => {
+    dbConnection.query(newBuildQry(QUERY_PROCS.GET_TASKS_REPORT_FOR_EMPLOYEE_BY_DAY, data), (err, result) => {
         if (err) {
             console.log(err.sqlMessage);
             res.send(err.sqlMessage);
@@ -233,7 +233,7 @@ app.get("/reports/employee/month/:data", (req, res) => {
 
     let data = JSON.parse(req.params.data)
 
-    dbConnection.query(buildQry(QUERY_PROCS.GET_TASKS_REPORT_FOR_EMPLOYEE_BY_MONTH, data), (err, result) => {
+    dbConnection.query(newBuildQry(QUERY_PROCS.GET_TASKS_REPORT_FOR_EMPLOYEE_BY_MONTH, data), (err, result) => {
         if (err) {
             console.log(err.sqlMessage);
             res.send(err.sqlMessage);
@@ -258,7 +258,7 @@ app.get("/jobs/employee/:data", (req, res) => {
 
     let data = JSON.parse(req.params.data)
 
-    dbConnection.query(buildQry(QUERY_PROCS.GET_ALL_JOBS_FOR_EMPLOYEE, data), (err, result) => {
+    dbConnection.query(newBuildQry(QUERY_PROCS.GET_ALL_JOBS_FOR_EMPLOYEE, data), (err, result) => {
         if (err) {
             console.log(err.sqlMessage);
             res.send(err.sqlMessage);
@@ -278,7 +278,7 @@ app.get("/jobs/employee/:data", (req, res) => {
 //-------------------------------
 app.get("/clients/details", (req, res) => {
 
-    dbConnection.query(buildQry(QUERY_PROCS.GET_ALL_CLIENT_DETAILS, null), (err, result) => {
+    dbConnection.query(newBuildQry(QUERY_PROCS.GET_ALL_CLIENT_DETAILS, null), (err, result) => {
         if (err) {
             console.log(err.sqlMessage);
             res.send(err.sqlMessage);
@@ -299,7 +299,7 @@ app.get("/clients/details", (req, res) => {
 //-------------------------------
 app.get("/employees/names", (req, res) => {
 
-    dbConnection.query(buildQry(QUERY_PROCS.GET_ALL_EMPLOYEE_NAMES, null), (err, result) => {
+    dbConnection.query(newBuildQry(QUERY_PROCS.GET_ALL_EMPLOYEE_NAMES, null), (err, result) => {
         if (err) {
             console.log(err.sqlMessage);
             res.send(err.sqlMessage);
@@ -331,7 +331,7 @@ app.post("/login", (req, res) => {
 
     let data = req.body;
 
-    dbConnection.query(buildQry(QUERY_PROCS.LOGIN, data), (err, result) => {
+    dbConnection.query(newBuildQry(QUERY_PROCS.LOGIN, data), (err, result) => {
         if (err) {
             console.log(err.sqlMessage);
             res.send({ status: err.sqlMessage });
@@ -353,7 +353,7 @@ app.post("/jobs/add", (req, res) => {
 
     let data = req.body;
 
-    dbConnection.query(buildQry(QUERY_PROCS.ADD_JOB, data), (err, result) => {
+    dbConnection.query(newBuildQry(QUERY_PROCS.ADD_JOB, data), (err, result) => {
         if (err) {
             console.log(err.sqlMessage);
             res.send({ status: err.sqlMessage });
@@ -374,7 +374,7 @@ app.post("/job/tasks/add", (req, res) => {
 
     let data = req.body;
 
-    dbConnection.query(buildQry(QUERY_PROCS.ADD_TASK, data), (err, result) => {
+    dbConnection.query(newBuildQry(QUERY_PROCS.ADD_TASK, data), (err, result) => {
         if (err) {
             console.log(err.sqlMessage);
             res.send({ status: err.sqlMessage });
@@ -395,7 +395,7 @@ app.post("/jobs/delete", (req, res) => {
 
     let data = req.body;
 
-    dbConnection.query(buildQry(QUERY_PROCS.DELETE_JOB, data), (err, result) => {
+    dbConnection.query(newBuildQry(QUERY_PROCS.DELETE_JOB, data), (err, result) => {
         if (err) {
             console.log(err.sqlMessage);
             res.send({ status: err.sqlMessage });
@@ -416,7 +416,7 @@ app.post("/job/tasks/delete", (req, res) => {
 
     let data = req.body;
 
-    dbConnection.query(buildQry(QUERY_PROCS.DELETE_TASK, data), (err, result) => {
+    dbConnection.query(newBuildQry(QUERY_PROCS.DELETE_TASK, data), (err, result) => {
         if (err) {
             console.log(err.sqlMessage);
             res.send({ status: err.sqlMessage });
@@ -438,7 +438,7 @@ app.post("/job/task/mark-as-complete", (req, res) => {
 
     let data = req.body;
 
-    dbConnection.query(buildQry(QUERY_PROCS.MARK_TASK_AS_COMPLETE, data), (err, result) => {
+    dbConnection.query(newBuildQry(QUERY_PROCS.MARK_TASK_AS_COMPLETE, data), (err, result) => {
         if (err) {
             console.log(err.sqlMessage);
             res.send({ status: err.sqlMessage });
@@ -459,7 +459,7 @@ app.post("/job/task/mark-as-incomplete", (req, res) => {
 
     let data = req.body;
 
-    dbConnection.query(buildQry(QUERY_PROCS.MARK_TASK_AS_INCOMPLETE, data), (err, result) => {
+    dbConnection.query(newBuildQry(QUERY_PROCS.MARK_TASK_AS_INCOMPLETE, data), (err, result) => {
         if (err) {
             console.log(err.sqlMessage);
             res.send({ status: err.sqlMessage });
