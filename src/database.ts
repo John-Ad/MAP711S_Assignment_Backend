@@ -23,12 +23,17 @@ export enum QUERY_PROCS {
     ADD_USER = "call sp_addUser",
     ADD_TASK = "call sp_addTask",
     ADD_JOB = "call sp_addJob",
+    ADD_CLIENT = "call sp_addClient",
+    ADD_CAR = "call sp_addCar",
 
     DELETE_JOB = "call sp_deleteJob",
     DELETE_TASK = "call sp_deleteTask",
 
     MARK_TASK_AS_COMPLETE = "call sp_markTaskAsComplete",
     MARK_TASK_AS_INCOMPLETE = "call sp_markTaskAsIncomplete",
+
+    GET_ALL_CLIENTS = "call sp_getAllClients",
+    GET_ALL_CLIENT_CARS = "call sp_getAllClientCars",
 
     GET_ALL_JOBS = "call sp_getAllJobs",
     GET_INCOMPLETE_TASKS_FOR_JOB = "call sp_getIncompleteTasksForJob",

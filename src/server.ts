@@ -51,6 +51,48 @@ app.get("/test", (req, res) => {
 });
 
 //-------------------------------
+//      GET ALL CLIENTS     
+//-------------------------------
+app.get("/clients/all", (req, res) => {
+
+    dbConnection.query(newBuildQry(QUERY_PROCS.GET_ALL_CLIENTS, null), (err, result) => {
+        if (err) {
+            console.log(err.sqlMessage);
+            res.send(err.sqlMessage);
+        } else {
+            if (result[0].length > 0) {
+                res.send(result[0]);
+            } else {
+                res.send([]);
+            }
+        }
+    });
+
+    //res.send(jobs);
+});
+
+//-------------------------------
+//      GET ALL CLIENT CARS     
+//-------------------------------
+app.get("/client/cars/all", (req, res) => {
+
+    dbConnection.query(newBuildQry(QUERY_PROCS.GET_ALL_CLIENT_CARS, null), (err, result) => {
+        if (err) {
+            console.log(err.sqlMessage);
+            res.send(err.sqlMessage);
+        } else {
+            if (result[0].length > 0) {
+                res.send(result[0]);
+            } else {
+                res.send([]);
+            }
+        }
+    });
+
+    //res.send(jobs);
+});
+
+//-------------------------------
 //      GET ALL JOBS     
 //-------------------------------
 app.get("/jobs/all", (req, res) => {
@@ -375,6 +417,48 @@ app.post("/job/tasks/add", (req, res) => {
     let data = req.body;
 
     dbConnection.query(newBuildQry(QUERY_PROCS.ADD_TASK, data), (err, result) => {
+        if (err) {
+            console.log(err.sqlMessage);
+            res.send({ status: err.sqlMessage });
+        } else {
+            let resp: IPostResponse = {
+                status: "success"
+            }
+            res.send(resp);
+        }
+    });
+
+});
+
+//-------------------------------
+//      ADD CLIENT     
+//-------------------------------
+app.post("/clients/add", (req, res) => {
+
+    let data = req.body;
+
+    dbConnection.query(newBuildQry(QUERY_PROCS.ADD_CLIENT, data), (err, result) => {
+        if (err) {
+            console.log(err.sqlMessage);
+            res.send({ status: err.sqlMessage });
+        } else {
+            let resp: IPostResponse = {
+                status: "success"
+            }
+            res.send(resp);
+        }
+    });
+
+});
+
+//-------------------------------
+//      ADD CAR     
+//-------------------------------
+app.post("/client/cars/add", (req, res) => {
+
+    let data = req.body;
+
+    dbConnection.query(newBuildQry(QUERY_PROCS.ADD_CAR, data), (err, result) => {
         if (err) {
             console.log(err.sqlMessage);
             res.send({ status: err.sqlMessage });
