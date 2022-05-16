@@ -5,7 +5,7 @@
 import path from 'path';
 import express from 'express';
 import { Express, Request, Response, NextFunction } from 'express';
-import DB_Connection, { newBuildQry, newBuildQry, QUERY_PROCS } from "./database";
+import DB_Connection, { newBuildQry, QUERY_PROCS } from "./database";
 import { IAddJob, IJob, IPostResponse } from './interfaces';
 
 const app: Express = express();
