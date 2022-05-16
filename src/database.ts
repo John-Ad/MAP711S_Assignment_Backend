@@ -53,18 +53,19 @@ export enum QUERY_PROCS {
 export function newBuildQry(qProc: QUERY_PROCS, data: any): string {
     let qry: string = qProc + "(";
 
+    if (data != null && data != undefined) {
+        let values = Object.values(data);
 
-    let values = Object.values(data);
+        for (let i = 0; i < values.length; i++) {
+            if (typeof values[i] == "number") {
+                qry += `${values[i]}`;
+            } else {
+                qry += `'${values[i]}'`;
+            }
 
-    for (let i = 0; i < values.length; i++) {
-        if (typeof values[i] == "number") {
-            qry += `${values[i]}`;
-        } else {
-            qry += `'${values[i]}'`;
-        }
-
-        if (i < values.length - 1) {
-            qry += ",";
+            if (i < values.length - 1) {
+                qry += ",";
+            }
         }
     }
     qry += ");";
