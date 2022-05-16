@@ -74,9 +74,11 @@ app.get("/clients/all", (req, res) => {
 //-------------------------------
 //      GET ALL CLIENT CARS     
 //-------------------------------
-app.get("/client/cars/all", (req, res) => {
+app.get("/client/cars/all/:data", (req, res) => {
 
-    dbConnection.query(newBuildQry(QUERY_PROCS.GET_ALL_CLIENT_CARS, null), (err, result) => {
+    let data = JSON.parse(req.params.data)
+
+    dbConnection.query(newBuildQry(QUERY_PROCS.GET_ALL_CLIENT_CARS, data), (err, result) => {
         if (err) {
             console.log(err.sqlMessage);
             res.send(err.sqlMessage);
