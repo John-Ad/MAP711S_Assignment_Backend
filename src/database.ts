@@ -26,6 +26,9 @@ export enum QUERY_PROCS {
     ADD_CLIENT = "call sp_addClient",
     ADD_CAR = "call sp_addCar",
 
+    EDIT_JOB = "call sp_editJob",
+    EDIT_TASK = "call sp_editTask",
+
     DELETE_JOB = "call sp_deleteJob",
     DELETE_TASK = "call sp_deleteTask",
 

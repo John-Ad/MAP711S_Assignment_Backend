@@ -559,6 +559,48 @@ app.post("/job/task/mark-as-incomplete", (req, res) => {
 
 });
 
+//-------------------------------
+//      EDIT JOB     
+//-------------------------------
+app.post("/jobs/edit", (req, res) => {
+
+    let data = req.body;
+
+    dbConnection.query(newBuildQry(QUERY_PROCS.EDIT_JOB, data), (err, result) => {
+        if (err) {
+            console.log(err.sqlMessage);
+            res.send({ status: err.sqlMessage });
+        } else {
+            let resp: IPostResponse = {
+                status: "success"
+            }
+            res.send(resp);
+        }
+    });
+
+});
+
+//-------------------------------
+//      EDIT TASK     
+//-------------------------------
+app.post("/job/tasks/edit", (req, res) => {
+
+    let data = req.body;
+
+    dbConnection.query(newBuildQry(QUERY_PROCS.EDIT_TASK, data), (err, result) => {
+        if (err) {
+            console.log(err.sqlMessage);
+            res.send({ status: err.sqlMessage });
+        } else {
+            let resp: IPostResponse = {
+                status: "success"
+            }
+            res.send(resp);
+        }
+    });
+
+});
+
 
 //-------------------------------
 //      START SERVER     

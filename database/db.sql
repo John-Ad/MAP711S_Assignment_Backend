@@ -214,7 +214,7 @@ delimiter ;
 /*      GET ALL INCOMPLETE TASKS FOR EMPLOYEE    */
 delimiter //
 create procedure sp_getAllIncompleteTasksForEmployee(
-    in username varchar(100)
+    in uname varchar(100)
 )
 begin
     select 
@@ -225,14 +225,14 @@ begin
         Comments,
         Username
     from Task
-    where Username=username AND Completed=0;
+    where Username=uname AND Completed=0;
 end //
 delimiter ;
 
 /*      GET ALL COMPLETED TASKS FOR EMPLOYEE BY DAY    */
 delimiter //
 create procedure sp_getAllCompletedTasksForEmployeeByDay(
-    in username varchar(100)
+    in uname varchar(100)
 )
 begin
     select 
@@ -243,14 +243,14 @@ begin
         Comments,
         Username
     from Task
-    where Username=username AND Completed=1 AND Completion_Date=date(now());
+    where Username=uname AND Completed=1 AND Completion_Date=date(now());
 end //
 delimiter ;
 
 /*      GET ALL COMPLETED TASKS FOR EMPLOYEE BY MONTH    */
 delimiter //
 create procedure sp_getAllCompletedTasksForEmployeeByMonth(
-    in username varchar(100)
+    in uname varchar(100)
 )
 begin
     select 
@@ -261,7 +261,7 @@ begin
         Comments,
         Username
     from Task
-    where Username=username AND Completed=1 AND year(Completion_Date)=year(date(now())) AND month(Completion_Date)=month(date(now()));
+    where Username=uname AND Completed=1 AND year(Completion_Date)=year(date(now())) AND month(Completion_Date)=month(date(now()));
 end //
 delimiter ;
 
@@ -281,6 +281,22 @@ begin
         Completion_Date,
         Date_Added)
     values(vin, name, description, completionDate, now());
+end //
+delimiter ;
+
+/*      EDIT JOB    */
+delimiter //
+create procedure sp_editJob(
+    in jobID int,
+    in vin varchar(100),
+    in name varchar(100),
+    in description varchar(3000),
+    in completionDate date
+)
+begin
+    update Job
+    set VIN=vin, Name=name, Description=description, Completion_Date=completionDate
+    where Job_ID=jobID;
 end //
 delimiter ;
 
@@ -344,6 +360,21 @@ begin
         Completion_Date
     )
     values(jobID, name, description, uname, '', 0, null);
+end //
+delimiter ;
+
+/*      EDIT TASK    */
+delimiter //
+create procedure sp_editTask(
+    in taskID int,
+    in name varchar(100),
+    in description varchar(3000),
+    in uname varchar(100)
+)
+begin
+    update Task
+    set Name=name, Description=description, Username=uname
+    where Task_ID=taskID; 
 end //
 delimiter ;
 
@@ -451,23 +482,24 @@ end //
 delimiter ;
 
 /*      GET TASKS REPORT FOR EMPLOYEE BY DAY    */
+drop procedure sp_getTasksReportForEmployeeByDay;
 delimiter //
 create procedure sp_getTasksReportForEmployeeByDay(
-    in username varchar(100)
+    in uname varchar(100)
 )
 begin
     select  
         (
             select count(*)
             from Task
-            where Username=username
+            where Username=uname
             AND Completed=1
             AND Completion_Date=date(now())
         ) as Completed_Tasks,
         (
             select count(*)
             from Task
-            where Username=username
+            where Username=uname
             AND Completed=0
         ) as Incomplete_Tasks,
 
@@ -491,7 +523,8 @@ begin
             from Job
             inner join Task
             on Job.Job_ID=Task.Job_ID
-            where Task.Completed=1 AND Task.Username='Francis'
+            where Task.Completed=1 AND Task.Username=uname
+            AND Task.Completion_Date=date(now())
             group by Job.Name
             order by count(Task.Task_ID) desc
             limit 1)
@@ -508,7 +541,7 @@ begin
             from Job
             inner join Task
             on Job.Job_ID=Task.Job_ID
-            where Task.Completed=0 AND Task.Username='Francis'
+            where Task.Completed=0 AND Task.Username=uname
             group by Job.Name
             order by count(Task.Task_ID) desc
             limit 1)
@@ -527,7 +560,8 @@ begin
             inner join CarDetails on CarDetails.Client_ID=Client.Client_ID) 
             inner join Job on Job.VIN=CarDetails.VIN)
             inner join Task on Task.Job_ID=Job.Job_ID 
-            where Task.Completed=1 AND Task.Username='Francis'
+            where Task.Completed=1 AND Task.Username=uname
+            AND Task.Completion_Date=date(now())
             group by Client.Name
             order by count(Task.Task_ID) desc
             limit 1)
@@ -540,6 +574,7 @@ end //
 delimiter ;
 
 /*      GET TASKS REPORT FOR EMPLOYEE BY MONTH    */
+drop procedure sp_getTasksReportForEmployeeByMonth;
 delimiter //
 create procedure sp_getTasksReportForEmployeeByMonth(
     in uname varchar(100)
@@ -565,7 +600,9 @@ begin
             select ifnull(
             (select count(*)
             from Job
-            where ifnull((select count(*) from Task where Task.Job_ID=Job.Job_ID AND Task.Completed=0), 0) = 0
+            where ifnull(
+                (select count(*) from Task
+                 where Task.Job_ID=Job.Job_ID AND Task.Username=uname AND Task.Completed=0), 1) = 0
             )
             ,
 
@@ -580,7 +617,8 @@ begin
             from Job
             inner join Task
             on Job.Job_ID=Task.Job_ID
-            where Task.Completed=1 AND Task.Username='Francis'
+            where Task.Completed=1 AND Task.Username=uname
+            AND year(Task.Completion_Date)=year(date(now())) AND month(Task.Completion_Date)=month(date(now()))
             group by Job.Name
             order by count(Task.Task_ID) desc
             limit 1)
@@ -597,7 +635,7 @@ begin
             from Job
             inner join Task
             on Job.Job_ID=Task.Job_ID
-            where Task.Completed=0 AND Task.Username='Francis'
+            where Task.Completed=0 AND Task.Username=uname
             group by Job.Name
             order by count(Task.Task_ID) desc
             limit 1)
@@ -616,7 +654,8 @@ begin
             inner join CarDetails on CarDetails.Client_ID=Client.Client_ID) 
             inner join Job on Job.VIN=CarDetails.VIN)
             inner join Task on Task.Job_ID=Job.Job_ID 
-            where Task.Completed=1 AND Task.Username='Francis'
+            where Task.Completed=1 AND Task.Username=uname
+            AND year(Task.Completion_Date)=year(date(now())) AND month(Task.Completion_Date)=month(date(now()))
             group by Client.Name
             order by count(Task.Task_ID) desc
             limit 1)
@@ -728,3 +767,38 @@ select ifnull(
 
 
 
+select Job.Name
+from Job
+inner join Task
+on Job.Job_ID=Task.Job_ID
+where Task.Completed=1 AND Task.Username='Francis'
+AND year(Task.Completion_Date)=year(date(now())) AND month(Task.Completion_Date)=month(date(now()));
+
+select Job.Name
+from Job
+inner join Task
+on Job.Job_ID=Task.Job_ID
+where Task.Completed=1 AND Task.Username='Francis'
+AND year(Task.Completion_Date)=year(date(now())) AND month(Task.Completion_Date)=month(date(now()))
+group by Job.Name
+order by count(Task.Task_ID) desc
+limit 1
+
+select Job.Name
+from Job
+inner join Task
+on Job.Job_ID=Task.Job_ID
+where Task.Completed=0 AND Task.Username='Francis'
+group by Job.Name
+order by count(Task.Task_ID) desc
+limit 1
+
+select Task.Name from Task
+where Task.Job_ID=1 AND Task.Username='Francis' AND Task.Completed=0;
+
+select Job.Name
+from Job
+where ifnull(
+    (select count(*) from Task
+    where Task.Job_ID=Job.Job_ID AND Task.Username='Francis' AND Task.Completed=0 
+    AND year(Task.Completion_Date)=year(date(now())) AND month(Task.Completion_Date)=month(date(now()))), 0) = 0;
